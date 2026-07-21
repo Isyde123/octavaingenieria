@@ -16,7 +16,7 @@
     "closeMenu": "Close menu"
   },
   "hero": {
-    "eyebrow": "Certified electrical engineering · Medellín, Antioquia, Colombia",
+    "eyebrow": "Certified electrical engineering",
     "titleLine": "Energy that transforms,",
     "titleAccent": "solutions that last",
     "subtitle": "Design, installation, legalization and maintenance of electrical systems for homes, buildings, industry and infrastructure across Antioquia and Colombia.",
@@ -213,9 +213,6 @@
     "whatsappLabel": "Sales channel",
     "whatsappCta": "Message us on WhatsApp",
     "emailLabel": "Sales department",
-    "coverageTitle": "Coverage &amp; hours",
-    "coverageLine": "Nationwide coverage (Colombia)",
-    "scheduleLine": "Monday to Friday 8:00am–6:00pm · Saturdays 9:00am–1:00pm",
     "formTitle": "We want to hear about your project",
     "formSub": "Response within 24 business hours",
     "form": {
@@ -244,13 +241,8 @@
     "locationLine": "Medellín, Antioquia · Colombia"
   },
   "contactInfo": {
-    "phoneDisplay": "+57 319 348 8565",
     "phoneWa": "573193488565",
-    "email": "comercial@octavaingenieria.com",
-    "addressLabel": "Address",
-    "address": "Calle 42C #88-64, Medellín, Colombia",
-    "hoursLabel": "Hours",
-    "hours": "Monday to Friday 8:00am–6:00pm · Saturdays 9:00am–1:00pm"
+    "email": "comercial@octavaingenieria.com"
   },
   "business": {
     "legalName": "Octava Ingeniería S.A.S.",

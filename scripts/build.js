@@ -344,15 +344,6 @@ ${jsonLd(c, lang)}
             <span class="lbl">${rich(c.contact.emailLabel)}</span>
             <span class="val">${esc(c.contactInfo.email)}</span>
           </a>
-          <a href="tel:+${c.contactInfo.phoneWa}">
-            <span class="lbl">WhatsApp / ${esc(c.contactInfo.phoneDisplay)}</span>
-            <span class="val">${esc(c.contactInfo.phoneDisplay)}</span>
-          </a>
-        </div>
-
-        <div class="contact-meta">
-          <div class="row"><span class="lbl">${rich(c.contactInfo.addressLabel)}</span><span>${esc(c.contactInfo.address)}</span></div>
-          <div class="row"><span class="lbl">${rich(c.contactInfo.hoursLabel)}</span><span>${esc(c.contactInfo.hours)}</span></div>
         </div>
       </div>
 

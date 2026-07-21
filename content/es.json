@@ -16,7 +16,7 @@
     "closeMenu": "Cerrar menú"
   },
   "hero": {
-    "eyebrow": "Ingeniería eléctrica certificada · Medellín, Antioquia, Colombia",
+    "eyebrow": "Ingeniería eléctrica certificada",
     "titleLine": "Energía que transforma,",
     "titleAccent": "soluciones que perduran",
     "subtitle": "Diseño, instalación, legalización y mantenimiento de sistemas eléctricos para viviendas, edificios, industria e infraestructura en Antioquia y Colombia.",
@@ -213,9 +213,6 @@
     "whatsappLabel": "Canal comercial",
     "whatsappCta": "Escríbenos por WhatsApp",
     "emailLabel": "Área comercial",
-    "coverageTitle": "Cobertura y horario",
-    "coverageLine": "Cobertura a nivel nacional (Colombia)",
-    "scheduleLine": "Lunes a viernes 8:00am–6:00pm · Sábados 9:00am–1:00pm",
     "formTitle": "Queremos conocer tu proyecto",
     "formSub": "Respuesta en menos de 24 horas hábiles",
     "form": {
@@ -244,13 +241,8 @@
     "locationLine": "Medellín, Antioquia · Colombia"
   },
   "contactInfo": {
-    "phoneDisplay": "319 348 8565",
     "phoneWa": "573193488565",
-    "email": "comercial@octavaingenieria.com",
-    "addressLabel": "Dirección",
-    "address": "Calle 42C #88-64, Medellín",
-    "hoursLabel": "Horario",
-    "hours": "Lunes a viernes 8:00am–6:00pm · Sábados 9:00am–1:00pm"
+    "email": "comercial@octavaingenieria.com"
   },
   "business": {
     "legalName": "Octava Ingeniería S.A.S.",
