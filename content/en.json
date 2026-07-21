@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "lang": "en",
+    "title": "Octava Ingeniería | Electrical Installations & Renewable Energy — Medellín, Colombia",
+    "description": "RETIE-certified electrical engineering in Medellín and Antioquia: installations, solar and wind power, EV chargers, CCTV and advanced diagnostics for homes, buildings and industry.",
+    "keywords": "electrical engineering Medellin, electrical installations Antioquia, solar panels Medellin, EV chargers condominium, RETIE Colombia, electrical maintenance, renewable energy Antioquia, CCTV Medellin",
+    "ogTitle": "Octava Ingeniería | Energy that transforms, solutions that last",
+    "ogDescription": "Certified electrical engineering for homes, buildings and industry in Antioquia. RETIE, solar, wind, EV chargers, CCTV and advanced diagnostics."
+  },
+  "nav": {
+    "servicios": "Services &amp; Projects",
+    "nosotros": "About",
+    "contacto": "Contact",
+    "cta": "How can we help you?",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "eyebrow": "Certified electrical engineering · Medellín, Antioquia, Colombia",
+    "titleLine": "Energy that transforms,",
+    "titleAccent": "solutions that last",
+    "subtitle": "Design, installation, legalization and maintenance of electrical systems for homes, buildings, industry and infrastructure across Antioquia and Colombia.",
+    "ctaPrimary": "Talk to one of our specialists",
+    "ctaWhatsapp": "Message us on WhatsApp",
+    "stats": [
+      { "value": "+5", "label": "Years in the industry" },
+      { "value": "100%", "label": "RETIE certified" },
+      { "value": "6", "label": "Service lines" }
+    ],
+    "imageAlt": "Photovoltaic solar panels installed on a rooftop with the Antioquia mountain range in the background — solar energy project by Octava Ingeniería",
+    "cardLabel": "Minimum reduction in utility bill",
+    "cardValue": "80%"
+  },
+  "services": {
+    "eyebrow": "/ Services & success stories",
+    "title": "Comprehensive solutions, backed by certified projects",
+    "subtitle": "We work with residential, commercial and industrial clients, from design through legalization. Flip each card to see a real project behind the service.",
+    "statRow": [
+      { "value": "100%", "label": "RETIE certified" },
+      { "value": "50+", "label": "Projects" },
+      { "value": "15+", "label": "Cities" }
+    ],
+    "flipHint": "View project",
+    "flipBack": "Back",
+    "items": [
+      {
+        "num": "01",
+        "color": "amber",
+        "tag": "",
+        "title": "Electrical design &amp; installations",
+        "desc": "New builds or retrofits with wiring, panels and efficient lighting, backed by drawings, load calculations and legalization with the grid operator.",
+        "items": [
+          "Homes, buildings and condominiums, industrial plants, rural infrastructure",
+          "Electrical drawings and load calculations",
+          "RETIE certification included in every project"
+        ],
+        "hasBack": true,
+        "backImg": "assets/img/back-01.jpg",
+        "backAlt": "Residential interior with certified lighting installation by Octava Ingeniería",
+        "backCat": "Electrical installation",
+        "backLoc": "Rionegro, Antioquia · Condominium",
+        "backTitle": "Electrical installation — Multi-family building",
+        "backResult": "Common areas and apartments fully lit",
+        "backBullets": [],
+        "backQuote": ""
+      },
+      {
+        "num": "02",
+        "color": "amber",
+        "tag": "",
+        "title": "Electrical studies &amp; risk mitigation",
+        "desc": "Identifying and solving electrical risks through load and capacity studies, thermography, electrical testing and power quality analysis.",
+        "items": [
+          "Load and installation capacity studies",
+          "FLIR thermography: hot spots and load imbalances",
+          "Power quality analysis: THD, flicker, power factor",
+          "Preventive maintenance and solar system upkeep"
+        ],
+        "hasBack": true,
+        "backImg": "assets/img/back-02.jpg",
+        "backAlt": "FLIR thermal camera detecting hot spots on an electrical panel during a diagnostic by Octava Ingeniería",
+        "backCat": "Thermography",
+        "backLoc": "Medellín, Antioquia · Electrical system",
+        "backTitle": "Thermographic diagnostics — Electrical system",
+        "backResult": "3 critical faults detected · 0 outages",
+        "backBullets": [],
+        "backQuote": ""
+      },
+      {
+        "num": "03",
+        "color": "blue",
+        "tag": "RETIE",
+        "title": "RETIE technical &amp; regulatory advisory",
+        "desc": "Support with legalization, RETIE audits and permitting, for certified installations and projects approved without setbacks.",
+        "items": [
+          "RETIE audits with compliance report",
+          "Legalization with grid operators",
+          "Permits for photovoltaic systems",
+          "Technical assessments and expert reports"
+        ],
+        "hasBack": true,
+        "backImg": "assets/img/back-03.jpg",
+        "backAlt": "Industrial electrical panel with copper connections reviewed during a technical audit by Octava Ingeniería",
+        "backCat": "Industrial",
+        "backLoc": "Itagüí, Antioquia · Industrial",
+        "backTitle": "Electrical retrofit — Production plant",
+        "backResult": "RETIE certified · 30% reduction in consumption",
+        "backBullets": [],
+        "backQuote": ""
+      },
+      {
+        "num": "04",
+        "color": "green",
+        "tag": "Renewable",
+        "title": "Renewable energy — Solar &amp; wind",
+        "desc": "Solar and wind systems tailored to each need (home, building or industry), with precise design, rural integration and full legalization.",
+        "items": [
+          "High-efficiency residential solar panels",
+          "Wind systems for rural and remote areas",
+          "On-grid and off-grid hybrid systems with battery storage"
+        ],
+        "hasBack": true,
+        "backImg": "assets/img/back-04.jpg",
+        "backAlt": "Photovoltaic solar panels installed on the roof of a single-family home in El Retiro, Antioquia",
+        "backCat": "Solar photovoltaic",
+        "backLoc": "El Retiro, Antioquia · Residential",
+        "backTitle": "Photovoltaic solar system — Single-family home",
+        "backResult": "80% reduction in the utility bill amount",
+        "backBullets": [],
+        "backQuote": ""
+      },
+      {
+        "num": "05",
+        "color": "violet",
+        "tag": "New",
+        "title": "Electric vehicle chargers",
+        "desc": "Installation and commissioning of EV charging points in condominiums, commercial parking lots and industrial plants. A complete technical, legal and billing solution.",
+        "items": [
+          "Level 2 and DC Fast charging",
+          "Smart charging management",
+          "Legalization and individual metering"
+        ],
+        "hasBack": true,
+        "backImg": "assets/img/back-05.jpg",
+        "backAlt": "Nighttime aerial view of a residential complex with parking ready for electric vehicle chargers in Envigado, Antioquia",
+        "backCat": "EV chargers",
+        "backLoc": "Envigado, Antioquia · Condominium",
+        "backTitle": "EV charger installation — Residential condominium",
+        "backResult": "8 charging points · individual metering",
+        "backBullets": [
+          "Infrastructure and installation capacity assessment",
+          "Level 2 and DC Fast installation",
+          "Smart charging: remote monitoring and control",
+          "Legalization and individual metering per user"
+        ],
+        "backQuote": "“Ideal for condominiums and parking lots”"
+      },
+      {
+        "num": "06",
+        "color": "blue",
+        "tag": "",
+        "title": "Telecom, CCTV &amp; fire detection",
+        "desc": "Design and installation of networks, closed-circuit television and fire detection, integrated for communication, security and complete protection.",
+        "items": [
+          "Structured networks and corporate Wi-Fi (Cat6/Cat6A)",
+          "HD/4K CCTV with 24/7 cloud monitoring",
+          "Fire detection and alarm (smoke and heat sensors)",
+          "Access control and virtual reception with facial recognition"
+        ],
+        "hasBack": false
+      }
+    ]
+  },
+  "nosotros": {
+    "eyebrow": "/ About us",
+    "title": "Reasons to trust us with your project",
+    "imageAlt": "Octava Ingeniería engineer performing a technical diagnostic with a thermal camera and clamp meter",
+    "items": [
+      {
+        "num": "01",
+        "title": "Certified technical expertise",
+        "desc": "RETIE-certified engineering, drawings, load calculations and legalization with the grid operator. No improvising.",
+        "tags": ["RETIE certification", "Drawings & load calculations", "Grid operator legalization"]
+      },
+      {
+        "num": "02",
+        "title": "Innovation &amp; a forward-looking vision",
+        "desc": "Solar, wind, EV chargers, advanced diagnostics and telecommunications. Solutions built for tomorrow.",
+        "tags": ["Cutting-edge technology", "Integrated renewable energy", "Diagnostics & monitoring"]
+      },
+      {
+        "num": "03",
+        "title": "Results-driven pragmatism",
+        "desc": "For every challenge, we develop multiple solution alternatives with scope and budget clearly defined from the start, so clients can choose the option that best fits their project's goals.",
+        "tags": ["Tailored solutions", "Cost transparency", "Results-driven execution"]
+      }
+    ]
+  },
+  "stats": {
+    "eyebrow": "/ Impact statistics",
+    "items": [
+      { "value": "+5", "label": "Years in the industry", "sub": "Proven track record" },
+      { "value": "100%", "label": "RETIE-certified projects", "sub": "Regulatory compliance" },
+      { "value": "6", "label": "Service lines", "sub": "Comprehensive solutions" },
+      { "value": "80%", "label": "Max. bill reduction", "sub": "Energy efficiency" },
+      { "value": "Colombia", "label": "Regional & national coverage", "sub": "Valle de Aburrá & Valle de San Nicolás" }
+    ]
+  },
+  "contact": {
+    "eyebrow": "/ Contact",
+    "title": "Ready for a safe and efficient project?",
+    "subtitle": "Request your free technical visit. We evaluate your installation, identify opportunities for improvement and present solutions with a transparent budget.",
+    "whatsappLabel": "Sales channel",
+    "whatsappCta": "Message us on WhatsApp",
+    "emailLabel": "Sales department",
+    "coverageTitle": "Coverage &amp; hours",
+    "coverageLine": "Nationwide coverage (Colombia)",
+    "scheduleLine": "Monday to Friday 8:00am–6:00pm · Saturdays 9:00am–1:00pm",
+    "formTitle": "We want to hear about your project",
+    "formSub": "Response within 24 business hours",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "phone": "Phone",
+      "phonePlaceholder": "300 000 0000",
+      "email": "Email",
+      "emailPlaceholder": "email@example.com",
+      "type": "Project type",
+      "typeOptions": ["Residential", "Commercial / condominium", "Industrial", "Solar / wind energy", "EV chargers", "Telecom / CCTV"],
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your project",
+      "submit": "Send request",
+      "sending": "Sending…",
+      "success": "Thank you. We've received your request and will contact you within 24 business hours.",
+      "error": "We couldn't send your request. Message us directly on WhatsApp or email."
+    }
+  },
+  "footer": {
+    "slogan": "Energy that transforms, solutions that last",
+    "navTitle": "Navigation",
+    "contactTitle": "Contact",
+    "socialTitle": "Follow us",
+    "rightsLine": "Octava Ingeniería · Tax ID (NIT) 901.867.732-2",
+    "locationLine": "Medellín, Antioquia · Colombia"
+  },
+  "contactInfo": {
+    "phoneDisplay": "+57 319 348 8565",
+    "phoneWa": "573193488565",
+    "email": "comercial@octavaingenieria.com",
+    "addressLabel": "Address",
+    "address": "Calle 42C #88-64, Medellín, Colombia",
+    "hoursLabel": "Hours",
+    "hours": "Monday to Friday 8:00am–6:00pm · Saturdays 9:00am–1:00pm"
+  },
+  "business": {
+    "legalName": "Octava Ingeniería S.A.S.",
+    "nit": "901.867.732-2"
+  },
+  "langSwitch": { "code": "ES", "href": "/" },
+  "skipLink": "Skip to main content",
+  "waFloatLabel": "Message us on WhatsApp"
+}

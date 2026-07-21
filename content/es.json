@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "lang": "es",
+    "title": "Octava Ingeniería | Instalaciones Eléctricas y Energías Renovables — Medellín, Antioquia",
+    "description": "Ingeniería eléctrica certificada RETIE en Medellín y Antioquia: instalaciones, energía solar y eólica, cargadores EV, CCTV y diagnósticos avanzados para vivienda, edificios e industria.",
+    "keywords": "ingeniería eléctrica Medellín, instalaciones eléctricas Antioquia, paneles solares Medellín, cargadores eléctricos copropiedad, RETIE Colombia, mantenimiento eléctrico, energías renovables Antioquia, CCTV Medellín",
+    "ogTitle": "Octava Ingeniería | Energía que transforma, soluciones que perduran",
+    "ogDescription": "Ingeniería eléctrica certificada para vivienda, edificios e industria en Antioquia. RETIE, solar, eólica, cargadores EV, CCTV y diagnósticos avanzados."
+  },
+  "nav": {
+    "servicios": "Servicios y proyectos",
+    "nosotros": "Nosotros",
+    "contacto": "Contacto",
+    "cta": "¿Cómo te podemos ayudar?",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "hero": {
+    "eyebrow": "Ingeniería eléctrica certificada · Medellín, Antioquia, Colombia",
+    "titleLine": "Energía que transforma,",
+    "titleAccent": "soluciones que perduran",
+    "subtitle": "Diseño, instalación, legalización y mantenimiento de sistemas eléctricos para viviendas, edificios, industria e infraestructura en Antioquia y Colombia.",
+    "ctaPrimary": "Contacta uno de nuestros especialistas",
+    "ctaWhatsapp": "Escríbenos por WhatsApp",
+    "stats": [
+      { "value": "+5", "label": "Años en el sector" },
+      { "value": "100%", "label": "Certificados RETIE" },
+      { "value": "6", "label": "Líneas de servicio" }
+    ],
+    "imageAlt": "Paneles solares fotovoltaicos instalados en cubierta, con cordillera de Antioquia al fondo — proyecto de energía solar de Octava Ingeniería",
+    "cardLabel": "Reducción mínima en la factura de servicios",
+    "cardValue": "80%"
+  },
+  "services": {
+    "eyebrow": "/ Servicios y casos de éxito",
+    "title": "Soluciones integrales, respaldadas por proyectos certificados",
+    "subtitle": "Trabajamos con clientes residenciales, comerciales e industriales, desde el diseño hasta la legalización. Gira cada tarjeta para conocer un proyecto real que respalda el servicio.",
+    "statRow": [
+      { "value": "100%", "label": "Certificados RETIE" },
+      { "value": "50+", "label": "Proyectos" },
+      { "value": "15+", "label": "Ciudades" }
+    ],
+    "flipHint": "Ver proyecto",
+    "flipBack": "Volver",
+    "items": [
+      {
+        "num": "01",
+        "color": "amber",
+        "tag": "",
+        "title": "Diseño e instalaciones eléctricas",
+        "desc": "Proyectos nuevos o adecuaciones con redes, tableros e iluminación eficiente, respaldados por planos, cálculos y legalización ante el operador de red.",
+        "items": [
+          "Viviendas, edificios y copropiedades, plantas industriales, infraestructura rural",
+          "Planos eléctricos y cálculos de carga",
+          "Certificación RETIE incluida en todos los proyectos"
+        ],
+        "hasBack": true,
+        "backImg": "assets/img/back-01.jpg",
+        "backAlt": "Interior residencial con instalación de iluminación certificada por Octava Ingeniería",
+        "backCat": "Instalación eléctrica",
+        "backLoc": "Rionegro, Antioquia · Copropiedad",
+        "backTitle": "Instalación eléctrica — Propiedad horizontal",
+        "backResult": "Zonas comunes y apartamentos completamente iluminados",
+        "backBullets": [],
+        "backQuote": ""
+      },
+      {
+        "num": "02",
+        "color": "amber",
+        "tag": "",
+        "title": "Estudios eléctricos y solución de riesgos",
+        "desc": "Identificación y solución de riesgos eléctricos mediante estudios de cargas y cargabilidad, termografía, pruebas eléctricas y análisis de calidad de energía.",
+        "items": [
+          "Estudio de cargas y cargabilidad de la instalación",
+          "Termografía FLIR: puntos calientes y desbalances de carga",
+          "Análisis de calidad de energía: THD, flicker, factor de potencia",
+          "Mantenimiento preventivo y de sistemas solares"
+        ],
+        "hasBack": true,
+        "backImg": "assets/img/back-02.jpg",
+        "backAlt": "Cámara termográfica FLIR detectando puntos calientes en un tablero eléctrico durante un diagnóstico de Octava Ingeniería",
+        "backCat": "Termografía",
+        "backLoc": "Medellín, Antioquia · Sistema eléctrico",
+        "backTitle": "Diagnóstico termográfico — Sistema eléctrico",
+        "backResult": "3 fallas críticas detectadas · 0 interrupciones",
+        "backBullets": [],
+        "backQuote": ""
+      },
+      {
+        "num": "03",
+        "color": "blue",
+        "tag": "RETIE",
+        "title": "Asesoría técnica y normativa RETIE",
+        "desc": "Acompañamiento en legalización, auditorías RETIE y obtención de licencias, para instalaciones certificadas y proyectos aprobados sin contratiempos.",
+        "items": [
+          "Auditorías RETIE con informe de cumplimiento",
+          "Legalización ante operadores de red",
+          "Licencias para sistemas fotovoltaicos",
+          "Peritajes técnicos y dictámenes"
+        ],
+        "hasBack": true,
+        "backImg": "assets/img/back-03.jpg",
+        "backAlt": "Tablero eléctrico industrial con conexiones de cobre revisadas durante una auditoría técnica de Octava Ingeniería",
+        "backCat": "Industrial",
+        "backLoc": "Itagüí, Antioquia · Industrial",
+        "backTitle": "Adecuación eléctrica — Planta de producción",
+        "backResult": "Certificado RETIE · reducción del 30% en consumo",
+        "backBullets": [],
+        "backQuote": ""
+      },
+      {
+        "num": "04",
+        "color": "green",
+        "tag": "Renovable",
+        "title": "Energías renovables — Solar y eólica",
+        "desc": "Sistemas solares y eólicos adaptados a cada necesidad (vivienda, edificio o industria), con diseño preciso, integración rural y legalización total.",
+        "items": [
+          "Paneles solares residenciales de alta eficiencia",
+          "Sistemas eólicos para zonas rurales y remotas",
+          "Sistemas híbridos on-grid y off-grid con almacenamiento en baterías"
+        ],
+        "hasBack": true,
+        "backImg": "assets/img/back-04.jpg",
+        "backAlt": "Paneles solares fotovoltaicos instalados en cubierta de vivienda unifamiliar en El Retiro, Antioquia",
+        "backCat": "Solar fotovoltaico",
+        "backLoc": "El Retiro, Antioquia · Residencial",
+        "backTitle": "Sistema solar fotovoltaico — Vivienda unifamiliar",
+        "backResult": "Reducción del 80% en el valor de la factura de servicios",
+        "backBullets": [],
+        "backQuote": ""
+      },
+      {
+        "num": "05",
+        "color": "violet",
+        "tag": "Nuevo",
+        "title": "Cargadores para vehículos eléctricos",
+        "desc": "Instalación y puesta en marcha de puntos de carga EV en copropiedades, parqueaderos comerciales y plantas industriales. Solución técnica, legal y tarifaria completa.",
+        "items": [
+          "Nivel 2 y DC Fast",
+          "Gestión de carga inteligente",
+          "Legalización y medición individual"
+        ],
+        "hasBack": true,
+        "backImg": "assets/img/back-05.jpg",
+        "backAlt": "Vista aérea nocturna de un conjunto residencial con parqueadero preparado para cargadores de vehículos eléctricos en Envigado, Antioquia",
+        "backCat": "Cargadores EV",
+        "backLoc": "Envigado, Antioquia · Copropiedad",
+        "backTitle": "Instalación cargadores EV — Copropiedad residencial",
+        "backResult": "8 puntos de carga · medición individual",
+        "backBullets": [
+          "Estudio de infraestructura y capacidad de la instalación",
+          "Instalación Nivel 2 y DC Fast",
+          "Smart charging: monitoreo y control remoto",
+          "Legalización y medición individual por usuario"
+        ],
+        "backQuote": "“Ideal para copropiedades y parqueaderos”"
+      },
+      {
+        "num": "06",
+        "color": "blue",
+        "tag": "",
+        "title": "Telecomunicaciones, CCTV y DCI",
+        "desc": "Diseño e instalación de redes, circuitos cerrados de televisión y detección contra incendios, integrados para comunicación, seguridad y protección total.",
+        "items": [
+          "Redes estructuradas y Wi-Fi corporativo (Cat6/Cat6A)",
+          "CCTV con cámaras HD/4K y monitoreo 24/7 en la nube",
+          "Detección y alarma contra incendios (sensores de humo y calor)",
+          "Control de acceso y portería virtual con reconocimiento facial"
+        ],
+        "hasBack": false
+      }
+    ]
+  },
+  "nosotros": {
+    "eyebrow": "/ Nosotros",
+    "title": "Motivos para confiar tu proyecto en nosotros",
+    "imageAlt": "Ingeniero de Octava Ingeniería realizando un diagnóstico técnico con cámara termográfica y pinza amperimétrica",
+    "items": [
+      {
+        "num": "01",
+        "title": "Experiencia técnica certificada",
+        "desc": "Ingeniería certificada RETIE, planos, cálculos y legalización ante el operador de red. Sin improvisación.",
+        "tags": ["Certificación RETIE", "Planos y cálculos de carga", "Legalización ante operador de red"]
+      },
+      {
+        "num": "02",
+        "title": "Innovación y visión de futuro",
+        "desc": "Solar, eólico, cargadores EV, diagnósticos avanzados y telecomunicaciones. Soluciones listas para mañana.",
+        "tags": ["Tecnología de punta", "Energías renovables integradas", "Diagnósticos y monitoreo"]
+      },
+      {
+        "num": "03",
+        "title": "Pragmatismo orientado a resultados",
+        "desc": "Ante cada desafío, desarrollamos múltiples alternativas de solución con alcance y presupuesto claramente definidos desde el inicio, permitiendo a nuestros clientes seleccionar la opción que mejor se ajuste a los objetivos de su proyecto.",
+        "tags": ["Soluciones a la medida", "Transparencia en costos", "Ejecución orientada a resultados"]
+      }
+    ]
+  },
+  "stats": {
+    "eyebrow": "/ Estadísticas de impacto",
+    "items": [
+      { "value": "+5", "label": "Años en el sector", "sub": "Experiencia consolidada" },
+      { "value": "100%", "label": "Proyectos certificados RETIE", "sub": "Cumplimiento normativo" },
+      { "value": "6", "label": "Líneas de servicio", "sub": "Soluciones integrales" },
+      { "value": "80%", "label": "Reducción máx. en factura", "sub": "Eficiencia energética" },
+      { "value": "Colombia", "label": "Cobertura regional y nacional", "sub": "Valle de Aburrá y Valle de San Nicolás" }
+    ]
+  },
+  "contact": {
+    "eyebrow": "/ Contacto",
+    "title": "¿Listo para un proyecto seguro y eficiente?",
+    "subtitle": "Solicita tu visita técnica sin costo. Evaluamos tu instalación, identificamos oportunidades de mejora y te presentamos soluciones con presupuesto transparente.",
+    "whatsappLabel": "Canal comercial",
+    "whatsappCta": "Escríbenos por WhatsApp",
+    "emailLabel": "Área comercial",
+    "coverageTitle": "Cobertura y horario",
+    "coverageLine": "Cobertura a nivel nacional (Colombia)",
+    "scheduleLine": "Lunes a viernes 8:00am–6:00pm · Sábados 9:00am–1:00pm",
+    "formTitle": "Queremos conocer tu proyecto",
+    "formSub": "Respuesta en menos de 24 horas hábiles",
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Tu nombre",
+      "phone": "Teléfono",
+      "phonePlaceholder": "300 000 0000",
+      "email": "Correo",
+      "emailPlaceholder": "correo@ejemplo.com",
+      "type": "Tipo de proyecto",
+      "typeOptions": ["Residencial", "Comercial / copropiedad", "Industrial", "Energía solar / eólica", "Cargadores EV", "Telecomunicaciones / CCTV"],
+      "message": "Mensaje",
+      "messagePlaceholder": "Cuéntanos sobre tu proyecto",
+      "submit": "Enviar solicitud",
+      "sending": "Enviando…",
+      "success": "Gracias. Hemos recibido tu solicitud y te contactaremos en menos de 24 horas hábiles.",
+      "error": "No pudimos enviar tu solicitud. Escríbenos directo por WhatsApp o correo."
+    }
+  },
+  "footer": {
+    "slogan": "Energía que transforma, soluciones que perduran",
+    "navTitle": "Navegación",
+    "contactTitle": "Contacto",
+    "socialTitle": "Síguenos",
+    "rightsLine": "Octava Ingeniería · NIT 901.867.732-2",
+    "locationLine": "Medellín, Antioquia · Colombia"
+  },
+  "contactInfo": {
+    "phoneDisplay": "319 348 8565",
+    "phoneWa": "573193488565",
+    "email": "comercial@octavaingenieria.com",
+    "addressLabel": "Dirección",
+    "address": "Calle 42C #88-64, Medellín",
+    "hoursLabel": "Horario",
+    "hours": "Lunes a viernes 8:00am–6:00pm · Sábados 9:00am–1:00pm"
+  },
+  "business": {
+    "legalName": "Octava Ingeniería S.A.S.",
+    "nit": "901.867.732-2"
+  },
+  "langSwitch": { "code": "EN", "href": "/en/" },
+  "skipLink": "Saltar al contenido principal",
+  "waFloatLabel": "Escríbenos por WhatsApp"
+}
