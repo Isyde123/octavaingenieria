@@ -18,7 +18,7 @@ const SITE_URL = "https://octavaingenieria.com";
 // Google Analytics 4: pega aquí el "ID de medición" (formato G-XXXXXXXXXX).
 // Si queda vacío (""), el sitio no lleva la etiqueta directa de Analytics.
 // Cuando GA4 se administre desde Google Tag Manager, déjalo vacío para no contar doble.
-const GA_MEASUREMENT_ID = "G-5WEMXD4L73";
+const GA_MEASUREMENT_ID = "";
 
 // Google Tag Manager: pega aquí el ID del contenedor (formato GTM-XXXXXXX).
 // Si queda vacío (""), el sitio se genera sin Tag Manager.

@@ -12,7 +12,7 @@
     try { granted = localStorage.getItem("octava_cookie_consent") === "granted"; } catch (e) {}
     gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: granted ? "granted" : "denied" });
     window.octavaGaActive = granted;
-    window.octavaTags = { ga: true, gtm: true };
+    window.octavaTags = { ga: false, gtm: true };
     window.octavaConsent = function (value) {
       window.octavaGaActive = value === "granted";
       gtag("consent", "update", { analytics_storage: window.octavaGaActive ? "granted" : "denied" });
@@ -26,15 +26,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WXCRQNGM');</script>
 <!-- End Google Tag Manager -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5WEMXD4L73"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-5WEMXD4L73');
-</script>
 <!-- GA:fin -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Octava Ingeniería | Electrical Installations &amp; Renewable Energy — Medellín, Colombia</title>
