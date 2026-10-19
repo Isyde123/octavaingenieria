@@ -167,6 +167,20 @@ function rich(str) {
   return String(str);
 }
 
+// Imagen con versiones WebP livianas (generadas por scripts/optimizar-imagenes.py).
+// Si no existen, usa solo la foto original.
+function picture(file, alt, { width, height, sizes, lazy = true, attrs = "" }) {
+  const stem = path.basename(file, path.extname(file));
+  const variants = [480, 800, 1200]
+    .filter((w) => fs.existsSync(path.join(ROOT, "assets/img", `${stem}-${w}.webp`)))
+    .map((w) => `/assets/img/${stem}-${w}.webp ${w}w`);
+  const dims = width && height ? ` width="${width}" height="${height}"` : "";
+  const loading = lazy ? ` loading="lazy" decoding="async"` : ` fetchpriority="high" decoding="async"`;
+  const img = `<img${attrs ? " " + attrs : ""} src="/assets/img/${path.basename(file)}" alt="${esc(alt)}"${dims}${loading}>`;
+  if (!variants.length) return img;
+  return `<picture><source type="image/webp" srcset="${variants.join(", ")}" sizes="${sizes}">${img}</picture>`;
+}
+
 function readJSON(file) {
   return JSON.parse(fs.readFileSync(file, "utf8"));
 }
@@ -229,7 +243,7 @@ function renderServiceBack(s) {
     : "";
   return `
         <div class="flip-back border-${s.color}">
-          <img src="/assets/img/${path.basename(s.backImg)}" alt="${esc(s.backAlt)}" loading="lazy">
+          ${picture(s.backImg, s.backAlt, { sizes: "(max-width:600px) 92vw, (max-width:960px) 46vw, 30vw" })}
           <div class="scrim"></div>
           <div class="content">
             <span class="cat bg-${s.color}">${esc(s.backCat)}</span>
@@ -298,31 +312,94 @@ function renderTypeOptions(opts) {
   return opts.map((o) => `<option>${esc(o)}</option>`).join("");
 }
 
+// Datos estructurados (schema.org): le dicen a Google y a los asistentes de IA
+// qué es la empresa, qué servicios ofrece, dónde y cómo contactarla.
 function jsonLd(c, lang) {
+  const pageUrl = SITE_URL + lang.urlPath;
+  const orgId = SITE_URL + "/#empresa";
+  const plain = (str) => String(str || "").replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+  const services = c.services.items.map((s) => ({
+    "@type": "Offer",
+    "itemOffered": {
+      "@type": "Service",
+      "name": plain(s.title),
+      "description": plain(s.desc),
+      "provider": { "@id": orgId },
+      "areaServed": { "@type": "AdministrativeArea", "name": "Antioquia, Colombia" }
+    }
+  }));
+  // Ciudades con proyectos publicados en el sitio y regiones de cobertura declaradas
+  const places = ["Medellín", "Envigado", "Itagüí", "Rionegro", "El Retiro"];
   const data = {
     "@context": "https://schema.org",
-    "@type": "ElectricalUtility",
-    "name": c.business.legalName,
-    "alternateName": "Octava Ingeniería",
-    "description": c.meta.description,
-    "url": SITE_URL + (lang.urlPath === "/" ? "/" : lang.urlPath),
-    "telephone": "+" + c.contactInfo.phoneWa,
-    "email": c.contactInfo.email,
-    "taxID": c.business.nit,
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Calle 42C #88-64",
-      "addressLocality": "Medellín",
-      "addressRegion": "Antioquia",
-      "addressCountry": "CO"
-    },
-    "geo": { "@type": "GeoCoordinates", "latitude": 6.2442, "longitude": -75.5812 },
-    "areaServed": "CO",
-    "openingHoursSpecification": [
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "08:00", "closes": "18:00" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday"], "opens": "09:00", "closes": "13:00" }
-    ],
-    "sameAs": ["https://wa.me/" + c.contactInfo.phoneWa]
+    "@graph": [
+      {
+        "@type": "Electrician",
+        "@id": orgId,
+        "name": "Octava Ingeniería",
+        "legalName": c.business.legalName,
+        "alternateName": ["Octava Ingeniería S.A.S.", "Octava Ingenieria", "Octava Ingeniería Eléctrica"],
+        "description": c.meta.description,
+        "slogan": plain(c.footer.slogan),
+        "url": SITE_URL + "/",
+        "logo": SITE_URL + "/assets/img/logo-negro.png",
+        "image": [SITE_URL + "/assets/img/og.jpg", SITE_URL + "/assets/img/hero.jpg"],
+        "telephone": "+" + c.contactInfo.phoneWa,
+        "email": c.contactInfo.email,
+        "taxID": c.business.nit,
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Calle 42C #88-64",
+          "addressLocality": "Medellín",
+          "addressRegion": "Antioquia",
+          "addressCountry": "CO"
+        },
+        "areaServed": [
+          ...places.map((n) => ({ "@type": "City", "name": n + ", Antioquia" })),
+          { "@type": "AdministrativeArea", "name": "Valle de Aburrá" },
+          { "@type": "AdministrativeArea", "name": "Valle de San Nicolás" },
+          { "@type": "AdministrativeArea", "name": "Antioquia" },
+          { "@type": "Country", "name": "Colombia" }
+        ],
+        "knowsAbout": c.services.items.map((s) => plain(s.title)).concat(["RETIE", "Certificación de instalaciones eléctricas"]),
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": plain(c.services.title),
+          "itemListElement": services
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "telephone": "+" + c.contactInfo.phoneWa,
+          "email": c.contactInfo.email,
+          "areaServed": "CO",
+          "availableLanguage": ["es", "en"]
+        },
+        "openingHoursSpecification": [
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "08:00", "closes": "18:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday"], "opens": "09:00", "closes": "13:00" }
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": SITE_URL + "/#sitio",
+        "url": SITE_URL + "/",
+        "name": "Octava Ingeniería",
+        "inLanguage": ["es-CO", "en"],
+        "publisher": { "@id": orgId }
+      },
+      {
+        "@type": "WebPage",
+        "@id": pageUrl + "#pagina",
+        "url": pageUrl,
+        "name": plain(c.meta.title),
+        "description": plain(c.meta.description),
+        "inLanguage": lang.code === "es" ? "es-CO" : "en",
+        "isPartOf": { "@id": SITE_URL + "/#sitio" },
+        "about": { "@id": orgId },
+        "primaryImageOfPage": SITE_URL + "/assets/img/og.jpg"
+      }
+    ]
   };
   return JSON.stringify(data, null, 2);
 }
@@ -352,11 +429,14 @@ function renderPage(c, lang, langs) {
 <meta property="og:description" content="${esc(c.meta.ogDescription)}">
 <meta property="og:url" content="${SITE_URL}${lang.urlPath}">
 <meta property="og:site_name" content="${esc(c.business.legalName)}">
-<meta property="og:image" content="${SITE_URL}/assets/img/hero.jpg">
+<meta property="og:image" content="${SITE_URL}/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(c.hero.imageAlt)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(c.meta.ogTitle)}">
 <meta name="twitter:description" content="${esc(c.meta.ogDescription)}">
-<meta name="twitter:image" content="${SITE_URL}/assets/img/hero.jpg">
+<meta name="twitter:image" content="${SITE_URL}/assets/img/og.jpg">
 
 ${headCommon()}
 
@@ -410,7 +490,7 @@ ${jsonLd(c, lang)}
         </div>
         <div class="hero-photo">
           <div class="hero-photo-frame">
-            <img id="heroImg" src="/assets/img/hero.jpg" alt="${esc(c.hero.imageAlt)}" width="960" height="1200">
+            ${picture("hero.jpg", c.hero.imageAlt, { width: 960, height: 1200, lazy: false, attrs: 'id="heroImg"', sizes: "(max-width:960px) 92vw, 42vw" })}
           </div>
           <div class="hero-badge glass hero-in d5">
             <div class="lbl">${rich(c.hero.cardLabel)}</div>
@@ -441,7 +521,7 @@ ${jsonLd(c, lang)}
   <section id="nosotros" class="section" aria-label="${lang.code === "es" ? "Nosotros" : "About"}">
     <div class="section-inner nos-grid rv">
       <div class="nos-photo">
-        <img src="/assets/img/about.jpg" alt="${esc(c.nosotros.imageAlt)}" width="900" height="1125" loading="lazy">
+        ${picture("about.jpg", c.nosotros.imageAlt, { width: 900, height: 1125, sizes: "(max-width:960px) 92vw, 42vw" })}
       </div>
       <div>
         <div class="eyebrow">${rich(c.nosotros.eyebrow)}</div>
@@ -541,7 +621,7 @@ ${jsonLd(c, lang)}
         <p>${rich(c.footer.slogan)}</p>
       </div>
       <div class="footer-col">
-        <h4>${rich(c.footer.navTitle)}</h4>
+        <h3>${rich(c.footer.navTitle)}</h3>
         <div class="links">
           <a href="#servicios">${rich(c.nav.servicios)}</a>
           <a href="#nosotros">${rich(c.nav.nosotros)}</a>
@@ -549,14 +629,14 @@ ${jsonLd(c, lang)}
         </div>
       </div>
       <div class="footer-col">
-        <h4>${rich(c.footer.contactTitle)}</h4>
+        <h3>${rich(c.footer.contactTitle)}</h3>
         <div class="links">
           <a href="https://wa.me/${c.contactInfo.phoneWa}" target="_blank" rel="noopener">WhatsApp</a>
           <a href="mailto:${c.contactInfo.email}">${esc(c.contactInfo.email)}</a>
         </div>
       </div>
       <div class="footer-col">
-        <h4>${rich(c.footer.socialTitle)}</h4>
+        <h3>${rich(c.footer.socialTitle)}</h3>
         <div class="footer-social">
           <a href="https://wa.me/${c.contactInfo.phoneWa}" target="_blank" rel="noopener" aria-label="WhatsApp">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2zm0 18.03h-.01a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.14.82.84-3.06-.2-.32a8.2 8.2 0 0 1-1.26-4.33c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.24-8.24 8.24zm4.52-6.17c-.25-.12-1.47-.72-1.7-.81-.23-.08-.4-.12-.56.13-.17.25-.65.81-.8.97-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.24-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.86-.87 2.09 0 1.23.9 2.42 1.02 2.59.12.17 1.77 2.71 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z"/></svg>
@@ -658,6 +738,35 @@ function build() {
     writeOut(l.policyOut, renderPolicyPage(contents[l.code], l, LANGS));
   }
   STATIC_PAGES.forEach(patchStaticPage);
+  writeSitemap();
+}
+
+// sitemap.xml con fecha de última actualización (la del build)
+function writeSitemap() {
+  const today = new Date().toISOString().slice(0, 10);
+  const es = LANGS.find((l) => l.code === "es");
+  const en = LANGS.find((l) => l.code === "en");
+  const pairs = [
+    { es: es.urlPath, en: en.urlPath, prio: ["1.0", "0.8"], freq: "monthly" },
+    { es: es.policyUrl, en: en.policyUrl, prio: ["0.3", "0.2"], freq: "yearly" }
+  ];
+  const urls = pairs.flatMap((p) =>
+    [[p.es, p.prio[0]], [p.en, p.prio[1]]].map(([loc, prio]) => `  <url>
+    <loc>${SITE_URL}${loc}</loc>
+    <lastmod>${today}</lastmod>
+    <xhtml:link rel="alternate" hreflang="es" href="${SITE_URL}${p.es}"/>
+    <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}${p.en}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}${p.es}"/>
+    <changefreq>${p.freq}</changefreq>
+    <priority>${prio}</priority>
+  </url>`)
+  );
+  writeOut("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urls.join("\n")}
+</urlset>
+`);
 }
 
 build();

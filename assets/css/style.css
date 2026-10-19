@@ -56,6 +56,11 @@ input::placeholder, textarea::placeholder{ color:#5F7280; }
 
 @keyframes fadeUp{ from{ opacity:0; transform:translateY(26px); } to{ opacity:1; transform:none; } }
 .anim-ready .hero-in{ animation:fadeUp .7s var(--ease) both; }
+/* El título principal no se oculta durante la animación: así Google lo cuenta como
+   cargado de inmediato (métrica LCP) y la página se califica como rápida. */
+@keyframes slideUp{ from{ transform:translateY(26px); } to{ transform:none; } }
+.anim-ready .hero h1.hero-in{ animation-name:slideUp; }
+picture{ display:contents; }
 .anim-ready .d1{ animation-delay:.05s; } .anim-ready .d2{ animation-delay:.15s; }
 .anim-ready .d3{ animation-delay:.25s; } .anim-ready .d4{ animation-delay:.35s; }
 .anim-ready .d5{ animation-delay:.45s; }
@@ -376,7 +381,7 @@ input::placeholder, textarea::placeholder{ color:#5F7280; }
 .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:48px; padding-bottom:44px; border-bottom:1px solid var(--rule-soft); }
 .footer-brand img{ height:64px; width:auto; margin-bottom:20px; }
 .footer-brand p{ font-family:var(--fh); font-weight:600; color:#C7D3DC; max-width:320px; line-height:1.4; font-style:italic; font-size:15px; }
-.footer-col h4{ font-family:var(--fm); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted3); margin-bottom:18px; }
+.footer-col h3{ font-weight:400;  font-family:var(--fm); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted3); margin-bottom:18px; }
 .footer-col .links{ display:flex; flex-direction:column; gap:11px; font-size:14.5px; color:var(--muted); }
 .footer-social{ display:flex; gap:10px; }
 .footer-social a{

@@ -56,6 +56,18 @@ netlify.toml, robots.txt, sitemap.xml → configuración de despliegue y SEO
 
 - Los archivos de `assets/` se guardan en caché un año (ver `netlify.toml`). El build les agrega `?v=<huella>` automáticamente, así que los cambios de CSS/JS sí llegan a quienes ya visitaron el sitio.
 
+## Fotos
+
+- Las fotos originales están en `assets/img/` (hero.jpg, about.jpg, back-01…05.jpg).
+- Si cambias una foto, corre `python3 scripts/optimizar-imagenes.py` y luego `node scripts/build.js`. Eso crea versiones livianas (WebP) para cada tamaño de pantalla y la imagen para compartir en redes (`og.jpg`).
+- Si no corres el primer comando, el sitio funciona igual con la foto original, solo que carga más lento.
+
+## SEO
+
+- Títulos y descripciones para Google: `meta.title` y `meta.description` en `content/es.json` y `content/en.json` (título ≤ 60 caracteres, descripción ≤ 155).
+- Los datos estructurados (lo que Google y los asistentes de IA leen sobre la empresa: tipo de negocio, servicios, cobertura, contacto) se generan en `jsonLd()` de `scripts/build.js` a partir de los mismos textos.
+- `sitemap.xml` se genera solo en cada build.
+
 ## Desplegar en Netlify
 
 Arrastra esta carpeta a Netlify (o conéctala por Git). No requiere build command:
