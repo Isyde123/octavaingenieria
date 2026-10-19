@@ -34,6 +34,13 @@ netlify.toml, robots.txt, sitemap.xml → configuración de despliegue y SEO
 - **Formulario**: sección Contacto, manejado por Netlify Forms (sin backend propio)
 - **Correo**: `comercial@octavaingenieria.com`
 
+## Google Analytics (GA4)
+
+- El ID de medición (`G-XXXXXXXXXX`) vive en un solo lugar: la constante `GA_MEASUREMENT_ID` al inicio de `scripts/build.js`.
+- Después de cambiarlo, corre `node scripts/build.js` y publica. Si queda vacío (`""`), el sitio se genera sin Analytics.
+- Eventos que se envían: `generate_lead` (formulario enviado), `click_whatsapp` y `click_email`. Están en `assets/js/main.js`.
+- Los archivos de `assets/` se guardan en caché un año (ver `netlify.toml`). El build les agrega `?v=<huella>` automáticamente, así que los cambios de CSS/JS sí llegan a quienes ya visitaron el sitio.
+
 ## Desplegar en Netlify
 
 Arrastra esta carpeta a Netlify (o conéctala por Git). No requiere build command:

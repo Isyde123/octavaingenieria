@@ -10,9 +10,39 @@
  */
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const ROOT = path.resolve(__dirname, "..");
 const SITE_URL = "https://octavaingenieria.com";
+
+// Google Analytics 4: pega aquí el "ID de medición" (formato G-XXXXXXXXXX).
+// Si queda vacío (""), el sitio se genera sin Analytics.
+// Después de cambiarlo, corre: node scripts/build.js
+const GA_MEASUREMENT_ID = "";
+
+function analyticsSnippet() {
+  if (!GA_MEASUREMENT_ID) return "";
+  if (!/^G-[A-Z0-9]{6,}$/.test(GA_MEASUREMENT_ID)) {
+    throw new Error('GA_MEASUREMENT_ID inválido: "' + GA_MEASUREMENT_ID + '" (debe verse como G-XXXXXXXXXX)');
+  }
+  return `
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${GA_MEASUREMENT_ID}');
+</script>`;
+}
+
+// Agrega ?v=<huella> a los archivos de /assets. netlify.toml los guarda en caché un año,
+// así que sin esto un cambio de CSS/JS no le llegaría a quien ya visitó el sitio.
+function assetUrl(urlPath) {
+  const file = path.join(ROOT, urlPath);
+  const hash = crypto.createHash("md5").update(fs.readFileSync(file)).digest("hex").slice(0, 8);
+  return urlPath + "?v=" + hash;
+}
 
 const LANGS = [
   { code: "es", jsonFile: "es.json", outFile: "index.html", urlPath: "/", altUrlPath: "/en/" },
@@ -197,7 +227,7 @@ function renderPage(c, lang, langs) {
 <html lang="${c.meta.lang}">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">${analyticsSnippet()}
 <title>${esc(c.meta.title)}</title>
 <meta name="description" content="${esc(c.meta.description)}">
 <meta name="keywords" content="${esc(c.meta.keywords)}">
@@ -225,7 +255,7 @@ function renderPage(c, lang, langs) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="${assetUrl("/assets/css/style.css")}">
 
 <script type="application/ld+json">
 ${jsonLd(c, lang)}
@@ -439,7 +469,7 @@ ${jsonLd(c, lang)}
   <span>${esc(c.waFloatLabel)}</span>
 </a>
 
-<script src="/assets/js/main.js"></script>
+<script src="${assetUrl("/assets/js/main.js")}"></script>
 </body>
 </html>
 `;

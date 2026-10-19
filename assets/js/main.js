@@ -68,6 +68,23 @@
     });
   });
 
+  /* ---------- Google Analytics 4: eventos de contacto ----------
+     Si Analytics no está configurado (sin ID en scripts/build.js), track() no hace nada. */
+  function track(name, params) {
+    if (typeof window.gtag === "function") { window.gtag("event", name, params || {}); }
+  }
+
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a) return;
+    var href = a.getAttribute("href") || "";
+    if (href.indexOf("wa.me/") !== -1) {
+      track("click_whatsapp");
+    } else if (href.indexOf("mailto:") === 0) {
+      track("click_email");
+    }
+  });
+
   /* ---------- contact form (Netlify Forms, AJAX submit) ---------- */
   var form = document.querySelector("[data-contact-form]");
   if (form) {
@@ -98,9 +115,12 @@
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: encode(payload)
       })
-        .then(function () {
+        .then(function (res) {
           form.reset();
           if (note) { note.textContent = successMsg; note.classList.add("ok"); }
+          if (res && res.ok) {
+            track("generate_lead", { form_name: "contacto", language: document.documentElement.lang });
+          }
         })
         .catch(function () {
           if (note) { note.textContent = errorMsg; note.classList.add("err"); }
