@@ -250,5 +250,23 @@
   },
   "langSwitch": { "code": "ES", "href": "/" },
   "skipLink": "Skip to main content",
-  "waFloatLabel": "Message us on WhatsApp"
+  "waFloatLabel": "Message us on WhatsApp",
+  "legal": {
+    "policyTitle": "Personal Data Processing Policy",
+    "policyDescription": "Personal data processing and cookie policy of Octava Ingeniería S.A.S., in accordance with Colombian Law 1581 of 2012.",
+    "policyLink": "Privacy policy",
+    "cookieSettings": "Cookie preferences",
+    "backHome": "Back to home",
+    "consentBefore": "I authorize Octava Ingeniería S.A.S. to process my personal data to handle my request, in accordance with its",
+    "consentLink": "Personal Data Processing Policy",
+    "consentAfter": ".",
+    "consentValue": "Yes, I accept the Personal Data Processing Policy"
+  },
+  "cookies": {
+    "title": "Cookies",
+    "text": "We use Google Analytics cookies to understand how the site is used and improve it. They are only enabled if you accept them.",
+    "more": "Learn more",
+    "accept": "Accept",
+    "reject": "Reject"
+  }
 }

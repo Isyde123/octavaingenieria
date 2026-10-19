@@ -250,5 +250,23 @@
   },
   "langSwitch": { "code": "EN", "href": "/en/" },
   "skipLink": "Saltar al contenido principal",
-  "waFloatLabel": "Escríbenos por WhatsApp"
+  "waFloatLabel": "Escríbenos por WhatsApp",
+  "legal": {
+    "policyTitle": "Política de Tratamiento de Datos Personales",
+    "policyDescription": "Política de Tratamiento de Datos Personales y de cookies de Octava Ingeniería S.A.S., conforme a la Ley 1581 de 2012.",
+    "policyLink": "Política de tratamiento de datos",
+    "cookieSettings": "Preferencias de cookies",
+    "backHome": "Volver al inicio",
+    "consentBefore": "Autorizo a Octava Ingeniería S.A.S. a tratar mis datos personales para atender mi solicitud, de acuerdo con su",
+    "consentLink": "Política de Tratamiento de Datos Personales",
+    "consentAfter": ".",
+    "consentValue": "Sí, acepto la Política de Tratamiento de Datos Personales"
+  },
+  "cookies": {
+    "title": "Uso de cookies",
+    "text": "Usamos cookies analíticas de Google Analytics para entender cómo se usa el sitio y mejorarlo. Solo se activan si las aceptas.",
+    "more": "Más información",
+    "accept": "Aceptar",
+    "reject": "Rechazar"
+  }
 }

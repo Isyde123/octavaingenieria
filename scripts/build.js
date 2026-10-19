@@ -18,22 +18,74 @@ const SITE_URL = "https://octavaingenieria.com";
 // Google Analytics 4: pega aquí el "ID de medición" (formato G-XXXXXXXXXX).
 // Si queda vacío (""), el sitio se genera sin Analytics.
 // Después de cambiarlo, corre: node scripts/build.js
-const GA_MEASUREMENT_ID = "";
+const GA_MEASUREMENT_ID = "G-5WEMXD4L73";
 
+// Google Analytics solo se descarga si el visitante acepta las cookies analíticas
+// (banner de cookies). Si las rechaza, no se carga nada de Google.
+// La decisión se guarda en el navegador con la clave "octava_cookie_consent".
 function analyticsSnippet() {
   if (!GA_MEASUREMENT_ID) return "";
   if (!/^G-[A-Z0-9]{6,}$/.test(GA_MEASUREMENT_ID)) {
     throw new Error('GA_MEASUREMENT_ID inválido: "' + GA_MEASUREMENT_ID + '" (debe verse como G-XXXXXXXXXX)');
   }
   return `
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>
+<!-- Google Analytics 4 (se carga solo con consentimiento) -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', '${GA_MEASUREMENT_ID}');
+  (function () {
+    var ID = "${GA_MEASUREMENT_ID}", KEY = "octava_cookie_consent", loaded = false, saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied" });
+    function load() {
+      window.octavaGaActive = true;
+      gtag("consent", "update", { analytics_storage: "granted" });
+      if (loaded) return;
+      loaded = true;
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = "https://www.googletagmanager.com/gtag/js?id=" + ID;
+      document.head.appendChild(s);
+      gtag("js", new Date());
+      gtag("config", ID);
+    }
+    window.octavaConsent = function (value) {
+      if (value === "granted") { load(); }
+      else { window.octavaGaActive = false; gtag("consent", "update", { analytics_storage: "denied" }); }
+    };
+    if (saved === "granted") load();
+  })();
 </script>`;
+}
+
+function cookieBanner(c, lang) {
+  if (!GA_MEASUREMENT_ID) return "";
+  const k = c.cookies;
+  return `
+<div class="cookie-banner" data-cookie-banner role="dialog" aria-live="polite" aria-label="${esc(k.title)}" hidden>
+  <div class="cookie-title">${esc(k.title)}</div>
+  <p>${esc(k.text)} <a href="${lang.policyUrl}#cookies">${esc(k.more)}</a></p>
+  <div class="cookie-actions">
+    <button type="button" class="cookie-reject" data-cookie-reject>${esc(k.reject)}</button>
+    <button type="button" class="cookie-accept" data-cookie-accept>${esc(k.accept)}</button>
+  </div>
+</div>`;
+}
+
+function footerLegal(c, lang) {
+  const settings = GA_MEASUREMENT_ID
+    ? `<button type="button" class="linklike" data-cookie-settings>${esc(c.legal.cookieSettings)}</button>`
+    : "";
+  return `<span class="footer-legal"><a href="${lang.policyUrl}">${esc(c.legal.policyLink)}</a>${settings}</span>`;
+}
+
+function headCommon() {
+  return `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F1923'/%3E%3Cpath d='M2 16 L8 16 L11 8 L16 24 L19 16 L30 16' stroke='%23E8A020' stroke-width='2.5' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="${assetUrl("/assets/css/style.css")}">`;
 }
 
 // Agrega ?v=<huella> a los archivos de /assets. netlify.toml los guarda en caché un año,
@@ -45,8 +97,10 @@ function assetUrl(urlPath) {
 }
 
 const LANGS = [
-  { code: "es", jsonFile: "es.json", outFile: "index.html", urlPath: "/", altUrlPath: "/en/" },
-  { code: "en", jsonFile: "en.json", outFile: "en/index.html", urlPath: "/en/", altUrlPath: "/" }
+  { code: "es", jsonFile: "es.json", outFile: "index.html", urlPath: "/", altUrlPath: "/en/",
+    policySource: "politica-datos.es.html", policyOut: "politica-de-datos.html", policyUrl: "/politica-de-datos.html" },
+  { code: "en", jsonFile: "en.json", outFile: "en/index.html", urlPath: "/en/", altUrlPath: "/",
+    policySource: "politica-datos.en.html", policyOut: "en/privacy-policy.html", policyUrl: "/en/privacy-policy.html" }
 ];
 
 function esc(str) {
@@ -250,12 +304,7 @@ function renderPage(c, lang, langs) {
 <meta name="twitter:description" content="${esc(c.meta.ogDescription)}">
 <meta name="twitter:image" content="${SITE_URL}/assets/img/hero.jpg">
 
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F1923'/%3E%3Cpath d='M2 16 L8 16 L11 8 L16 24 L19 16 L30 16' stroke='%23E8A020' stroke-width='2.5' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="${assetUrl("/assets/css/style.css")}">
+${headCommon()}
 
 <script type="application/ld+json">
 ${jsonLd(c, lang)}
@@ -416,6 +465,10 @@ ${jsonLd(c, lang)}
             <span>${rich(c.contact.form.message)}</span>
             <textarea rows="3" name="mensaje" placeholder="${esc(c.contact.form.messagePlaceholder)}"></textarea>
           </label>
+          <label class="consent">
+            <input type="checkbox" name="autorizacion_datos" value="${esc(c.legal.consentValue)}" required>
+            <span>${esc(c.legal.consentBefore)} <a href="${lang.policyUrl}" target="_blank" rel="noopener">${esc(c.legal.consentLink)}</a>${esc(c.legal.consentAfter)}</span>
+          </label>
           <button type="submit" class="form-submit btn-bulb">${rich(c.contact.form.submit)} →</button>
           <p class="form-note" data-form-note role="status" aria-live="polite"></p>
         </form>
@@ -459,10 +512,12 @@ ${jsonLd(c, lang)}
     </div>
     <div class="footer-bottom">
       <span>© ${new Date().getFullYear()} ${esc(c.footer.rightsLine)}</span>
+      ${footerLegal(c, lang)}
       <span>${esc(c.footer.locationLine)}</span>
     </div>
   </div>
 </footer>
+${cookieBanner(c, lang)}
 
 <a href="https://wa.me/${c.contactInfo.phoneWa}" target="_blank" rel="noopener" class="wa-float" aria-label="${esc(c.waFloatLabel)}">
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.33 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2zm0 18.03h-.01a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.14.82.84-3.06-.2-.32a8.2 8.2 0 0 1-1.26-4.33c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.24-8.24 8.24zm4.52-6.17c-.25-.12-1.47-.72-1.7-.81-.23-.08-.4-.12-.56.13-.17.25-.65.81-.8.97-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.24-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.36-.77-1.86-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.86-.87 2.09 0 1.23.9 2.42 1.02 2.59.12.17 1.77 2.71 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z"/></svg>
@@ -475,6 +530,69 @@ ${jsonLd(c, lang)}
 `;
 }
 
+// Página de la Política de Tratamiento de Datos. El texto vive en content/politica-datos.<idioma>.html
+function renderPolicyPage(c, lang, langs) {
+  const other = langs.find((l) => l.code !== lang.code);
+  const es = langs.find((l) => l.code === "es");
+  const en = langs.find((l) => l.code === "en");
+  const body = fs.readFileSync(path.join(ROOT, "content", lang.policySource), "utf8");
+  return `<!DOCTYPE html>
+<html lang="${c.meta.lang}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">${analyticsSnippet()}
+<title>${esc(c.legal.policyTitle)} — ${esc(c.business.legalName)}</title>
+<meta name="description" content="${esc(c.legal.policyDescription)}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="${SITE_URL}${lang.policyUrl}">
+<link rel="alternate" hreflang="es" href="${SITE_URL}${es.policyUrl}">
+<link rel="alternate" hreflang="en" href="${SITE_URL}${en.policyUrl}">
+<link rel="alternate" hreflang="x-default" href="${SITE_URL}${es.policyUrl}">
+${headCommon()}
+</head>
+<body>
+<a class="skip-link" href="#main">${esc(c.skipLink)}</a>
+<header class="site-nav">
+  <div class="nav-row">
+    <a href="${lang.urlPath}" class="nav-logo" aria-label="${esc(c.business.legalName)}">
+      <img src="/assets/img/logo-blanco.png" alt="${esc(c.business.legalName)}" width="175" height="56">
+    </a>
+    <div style="display:flex;align-items:center;gap:14px">
+      <a class="lang-switch" href="${other.policyUrl}" hreflang="${other.code}">${esc(c.langSwitch.code)}</a>
+      <a href="${lang.urlPath}" class="btn btn-outline nav-cta">${esc(c.legal.backHome)}</a>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="legal">
+  <article class="legal-inner">
+${body}
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-bottom">
+      <span>© ${new Date().getFullYear()} ${esc(c.footer.rightsLine)}</span>
+      ${footerLegal(c, lang)}
+      <span>${esc(c.footer.locationLine)}</span>
+    </div>
+  </div>
+</footer>
+${cookieBanner(c, lang)}
+<script src="${assetUrl("/assets/js/main.js")}"></script>
+</body>
+</html>
+`;
+}
+
+function writeOut(rel, html) {
+  const outPath = path.join(ROOT, rel);
+  fs.mkdirSync(path.dirname(outPath), { recursive: true });
+  fs.writeFileSync(outPath, html, "utf8");
+  console.log("Wrote " + rel);
+}
+
 function build() {
   const contents = {};
   for (const l of LANGS) {
@@ -482,11 +600,8 @@ function build() {
   }
 
   for (const l of LANGS) {
-    const html = renderPage(contents[l.code], l, LANGS);
-    const outPath = path.join(ROOT, l.outFile);
-    fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, html, "utf8");
-    console.log("Wrote " + l.outFile);
+    writeOut(l.outFile, renderPage(contents[l.code], l, LANGS));
+    writeOut(l.policyOut, renderPolicyPage(contents[l.code], l, LANGS));
   }
 }
 

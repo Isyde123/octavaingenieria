@@ -68,10 +68,53 @@
     });
   });
 
+  /* ---------- aviso de cookies ----------
+     Analytics solo se carga si el visitante acepta (ver analyticsSnippet en scripts/build.js). */
+  var CONSENT_KEY = "octava_cookie_consent";
+  function getConsent() { try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; } }
+  function setConsent(v) { try { localStorage.setItem(CONSENT_KEY, v); } catch (e) {} }
+  function clearGaCookies() {
+    var host = location.hostname;
+    var domains = ["", "; domain=" + host, "; domain=." + host.replace(/^www\./, "")];
+    document.cookie.split(";").forEach(function (c) {
+      var name = c.split("=")[0].trim();
+      if (name.indexOf("_ga") === 0) {
+        domains.forEach(function (d) {
+          document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/" + d;
+        });
+      }
+    });
+  }
+
+  var banner = document.querySelector("[data-cookie-banner]");
+  if (banner) {
+    var acceptBtn = banner.querySelector("[data-cookie-accept]");
+    var rejectBtn = banner.querySelector("[data-cookie-reject]");
+    if (!getConsent()) banner.hidden = false;
+
+    acceptBtn.addEventListener("click", function () {
+      setConsent("granted");
+      if (typeof window.octavaConsent === "function") window.octavaConsent("granted");
+      banner.hidden = true;
+    });
+    rejectBtn.addEventListener("click", function () {
+      setConsent("denied");
+      if (typeof window.octavaConsent === "function") window.octavaConsent("denied");
+      clearGaCookies();
+      banner.hidden = true;
+    });
+    document.querySelectorAll("[data-cookie-settings]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        banner.hidden = false;
+        acceptBtn.focus();
+      });
+    });
+  }
+
   /* ---------- Google Analytics 4: eventos de contacto ----------
-     Si Analytics no está configurado (sin ID en scripts/build.js), track() no hace nada. */
+     Solo se envían si el visitante aceptó las cookies analíticas. */
   function track(name, params) {
-    if (typeof window.gtag === "function") { window.gtag("event", name, params || {}); }
+    if (window.octavaGaActive && typeof window.gtag === "function") { window.gtag("event", name, params || {}); }
   }
 
   document.addEventListener("click", function (e) {
@@ -116,11 +159,12 @@
         body: encode(payload)
       })
         .then(function (res) {
+          // Netlify puede responder con error (p. ej. 404 si no detectó el formulario):
+          // en ese caso no se borra lo escrito y se muestra el mensaje de error.
+          if (!res || !res.ok) { throw new Error("HTTP " + (res ? res.status : "?")); }
           form.reset();
           if (note) { note.textContent = successMsg; note.classList.add("ok"); }
-          if (res && res.ok) {
-            track("generate_lead", { form_name: "contacto", language: document.documentElement.lang });
-          }
+          track("generate_lead", { form_name: "contacto", language: document.documentElement.lang });
         })
         .catch(function () {
           if (note) { note.textContent = errorMsg; note.classList.add("err"); }
