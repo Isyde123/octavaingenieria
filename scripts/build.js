@@ -20,42 +20,54 @@ const SITE_URL = "https://octavaingenieria.com";
 // Después de cambiarlo, corre: node scripts/build.js
 const GA_MEASUREMENT_ID = "G-5WEMXD4L73";
 
-// Google Analytics solo se descarga si el visitante acepta las cookies analíticas
-// (banner de cookies). Si las rechaza, no se carga nada de Google.
-// La decisión se guarda en el navegador con la clave "octava_cookie_consent".
+// Etiqueta de Google (gtag.js) tal como la entrega Google Analytics, precedida del
+// "modo de consentimiento": mientras el visitante no acepte el aviso de cookies,
+// Google Analytics no guarda cookies. La decisión se guarda en el navegador
+// con la clave "octava_cookie_consent".
 function analyticsSnippet() {
   if (!GA_MEASUREMENT_ID) return "";
   if (!/^G-[A-Z0-9]{6,}$/.test(GA_MEASUREMENT_ID)) {
     throw new Error('GA_MEASUREMENT_ID inválido: "' + GA_MEASUREMENT_ID + '" (debe verse como G-XXXXXXXXXX)');
   }
   return `
-<!-- Google Analytics 4 (se carga solo con consentimiento) -->
+<!-- GA:inicio (generado por scripts/build.js, no editar a mano) -->
+<!-- Consentimiento: sin cookies de Analytics hasta que el visitante acepte -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   (function () {
-    var ID = "${GA_MEASUREMENT_ID}", KEY = "octava_cookie_consent", loaded = false, saved = null;
-    try { saved = localStorage.getItem(KEY); } catch (e) {}
-    gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied" });
-    function load() {
-      window.octavaGaActive = true;
-      gtag("consent", "update", { analytics_storage: "granted" });
-      if (loaded) return;
-      loaded = true;
-      var s = document.createElement("script");
-      s.async = true;
-      s.src = "https://www.googletagmanager.com/gtag/js?id=" + ID;
-      document.head.appendChild(s);
-      gtag("js", new Date());
-      gtag("config", ID);
-    }
+    var granted = false;
+    try { granted = localStorage.getItem("octava_cookie_consent") === "granted"; } catch (e) {}
+    gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: granted ? "granted" : "denied" });
+    window.octavaGaActive = granted;
     window.octavaConsent = function (value) {
-      if (value === "granted") { load(); }
-      else { window.octavaGaActive = false; gtag("consent", "update", { analytics_storage: "denied" }); }
+      window.octavaGaActive = value === "granted";
+      gtag("consent", "update", { analytics_storage: window.octavaGaActive ? "granted" : "denied" });
     };
-    if (saved === "granted") load();
   })();
-</script>`;
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '${GA_MEASUREMENT_ID}');
+</script>
+<!-- GA:fin -->`;
+}
+
+// Las páginas de "gracias" son archivos fijos: el build les inserta (o actualiza)
+// la misma etiqueta justo después de <meta charset>.
+const STATIC_PAGES = ["gracias.html", "en/thank-you.html"];
+function patchStaticPage(rel) {
+  const file = path.join(ROOT, rel);
+  let html = fs.readFileSync(file, "utf8");
+  html = html.replace(/\n?<!-- GA:inicio[\s\S]*?<!-- GA:fin -->/, "");
+  html = html.replace(/(<meta charset="UTF-8">)/, "$1" + analyticsSnippet());
+  fs.writeFileSync(file, html, "utf8");
+  console.log("Updated " + rel);
 }
 
 function cookieBanner(c, lang) {
@@ -280,8 +292,8 @@ function renderPage(c, lang, langs) {
   return `<!DOCTYPE html>
 <html lang="${c.meta.lang}">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">${analyticsSnippet()}
+<meta charset="UTF-8">${analyticsSnippet()}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(c.meta.title)}</title>
 <meta name="description" content="${esc(c.meta.description)}">
 <meta name="keywords" content="${esc(c.meta.keywords)}">
@@ -539,8 +551,8 @@ function renderPolicyPage(c, lang, langs) {
   return `<!DOCTYPE html>
 <html lang="${c.meta.lang}">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">${analyticsSnippet()}
+<meta charset="UTF-8">${analyticsSnippet()}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(c.legal.policyTitle)} — ${esc(c.business.legalName)}</title>
 <meta name="description" content="${esc(c.legal.policyDescription)}">
 <meta name="robots" content="index, follow">
@@ -603,6 +615,7 @@ function build() {
     writeOut(l.outFile, renderPage(contents[l.code], l, LANGS));
     writeOut(l.policyOut, renderPolicyPage(contents[l.code], l, LANGS));
   }
+  STATIC_PAGES.forEach(patchStaticPage);
 }
 
 build();

@@ -2,34 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Google Analytics 4 (se carga solo con consentimiento) -->
+<!-- GA:inicio (generado por scripts/build.js, no editar a mano) -->
+<!-- Consentimiento: sin cookies de Analytics hasta que el visitante acepte -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   (function () {
-    var ID = "G-5WEMXD4L73", KEY = "octava_cookie_consent", loaded = false, saved = null;
-    try { saved = localStorage.getItem(KEY); } catch (e) {}
-    gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied" });
-    function load() {
-      window.octavaGaActive = true;
-      gtag("consent", "update", { analytics_storage: "granted" });
-      if (loaded) return;
-      loaded = true;
-      var s = document.createElement("script");
-      s.async = true;
-      s.src = "https://www.googletagmanager.com/gtag/js?id=" + ID;
-      document.head.appendChild(s);
-      gtag("js", new Date());
-      gtag("config", ID);
-    }
+    var granted = false;
+    try { granted = localStorage.getItem("octava_cookie_consent") === "granted"; } catch (e) {}
+    gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: granted ? "granted" : "denied" });
+    window.octavaGaActive = granted;
     window.octavaConsent = function (value) {
-      if (value === "granted") { load(); }
-      else { window.octavaGaActive = false; gtag("consent", "update", { analytics_storage: "denied" }); }
+      window.octavaGaActive = value === "granted";
+      gtag("consent", "update", { analytics_storage: window.octavaGaActive ? "granted" : "denied" });
     };
-    if (saved === "granted") load();
   })();
 </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5WEMXD4L73"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5WEMXD4L73');
+</script>
+<!-- GA:fin -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Octava Ingeniería | Electrical Installations &amp; Renewable Energy — Medellín, Colombia</title>
 <meta name="description" content="RETIE-certified electrical engineering in Medellín and Antioquia: installations, solar and wind power, EV chargers, CCTV and advanced diagnostics for homes, buildings and industry.">
 <meta name="keywords" content="electrical engineering Medellin, electrical installations Antioquia, solar panels Medellin, EV chargers condominium, RETIE Colombia, electrical maintenance, renewable energy Antioquia, CCTV Medellin">

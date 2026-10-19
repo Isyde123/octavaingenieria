@@ -39,7 +39,7 @@ netlify.toml, robots.txt, sitemap.xml → configuración de despliegue y SEO
 - Texto de la política: `content/politica-datos.es.html` y `content/politica-datos.en.html` (se editan directamente; luego `node scripts/build.js`).
 - Se publica en `/politica-de-datos.html` y `/en/privacy-policy.html` (generadas, no editar a mano).
 - El formulario exige marcar la casilla de autorización; Netlify guarda el campo `autorizacion_datos` con cada envío como prueba de la autorización.
-- Aviso de cookies: Google Analytics solo se carga si el visitante pulsa "Aceptar". La decisión se guarda en el navegador y se puede cambiar con "Preferencias de cookies" en el pie de página.
+- Etiqueta de Google (gtag.js) en todas las páginas, con modo de consentimiento: Analytics no guarda cookies hasta que el visitante pulsa "Aceptar". Las páginas de gracias son fijas, pero el build les inserta la misma etiqueta. La decisión se guarda en el navegador y se puede cambiar con "Preferencias de cookies" en el pie de página.
 
 ## Google Analytics (GA4)
 

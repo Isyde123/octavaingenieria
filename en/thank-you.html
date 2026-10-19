@@ -2,6 +2,32 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- GA:inicio (generado por scripts/build.js, no editar a mano) -->
+<!-- Consentimiento: sin cookies de Analytics hasta que el visitante acepte -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  (function () {
+    var granted = false;
+    try { granted = localStorage.getItem("octava_cookie_consent") === "granted"; } catch (e) {}
+    gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: granted ? "granted" : "denied" });
+    window.octavaGaActive = granted;
+    window.octavaConsent = function (value) {
+      window.octavaGaActive = value === "granted";
+      gtag("consent", "update", { analytics_storage: window.octavaGaActive ? "granted" : "denied" });
+    };
+  })();
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5WEMXD4L73"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5WEMXD4L73');
+</script>
+<!-- GA:fin -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thank you — Octava Ingeniería</title>
 <meta name="robots" content="noindex">
