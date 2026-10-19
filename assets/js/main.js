@@ -114,7 +114,16 @@
   /* ---------- Google Analytics 4: eventos de contacto ----------
      Solo se envían si el visitante aceptó las cookies analíticas. */
   function track(name, params) {
-    if (window.octavaGaActive && typeof window.gtag === "function") { window.gtag("event", name, params || {}); }
+    if (!window.octavaGaActive) return;
+    var tags = window.octavaTags || {};
+    // Etiqueta directa de Google Analytics (gtag.js)
+    if (tags.ga && typeof window.gtag === "function") { window.gtag("event", name, params || {}); }
+    // Google Tag Manager: evento personalizado para usar como activador
+    if (tags.gtm && window.dataLayer) {
+      var data = { event: name };
+      for (var k in params || {}) { data[k] = params[k]; }
+      window.dataLayer.push(data);
+    }
   }
 
   document.addEventListener("click", function (e) {

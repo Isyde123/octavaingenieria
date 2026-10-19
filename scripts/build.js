@@ -16,36 +16,45 @@ const ROOT = path.resolve(__dirname, "..");
 const SITE_URL = "https://octavaingenieria.com";
 
 // Google Analytics 4: pega aquí el "ID de medición" (formato G-XXXXXXXXXX).
-// Si queda vacío (""), el sitio se genera sin Analytics.
-// Después de cambiarlo, corre: node scripts/build.js
+// Si queda vacío (""), el sitio no lleva la etiqueta directa de Analytics.
+// Cuando GA4 se administre desde Google Tag Manager, déjalo vacío para no contar doble.
 const GA_MEASUREMENT_ID = "G-5WEMXD4L73";
 
-// Etiqueta de Google (gtag.js) tal como la entrega Google Analytics, precedida del
-// "modo de consentimiento": mientras el visitante no acepte el aviso de cookies,
-// Google Analytics no guarda cookies. La decisión se guarda en el navegador
-// con la clave "octava_cookie_consent".
-function analyticsSnippet() {
-  if (!GA_MEASUREMENT_ID) return "";
-  if (!/^G-[A-Z0-9]{6,}$/.test(GA_MEASUREMENT_ID)) {
+// Google Tag Manager: pega aquí el ID del contenedor (formato GTM-XXXXXXX).
+// Si queda vacío (""), el sitio se genera sin Tag Manager.
+const GTM_CONTAINER_ID = "";
+
+// Después de cambiar cualquiera de los dos, corre: node scripts/build.js
+const TRACKING_ON = Boolean(GA_MEASUREMENT_ID || GTM_CONTAINER_ID);
+
+function validateIds() {
+  if (GA_MEASUREMENT_ID && !/^G-[A-Z0-9]{6,}$/.test(GA_MEASUREMENT_ID)) {
     throw new Error('GA_MEASUREMENT_ID inválido: "' + GA_MEASUREMENT_ID + '" (debe verse como G-XXXXXXXXXX)');
   }
-  return `
-<!-- GA:inicio (generado por scripts/build.js, no editar a mano) -->
-<!-- Consentimiento: sin cookies de Analytics hasta que el visitante acepte -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  (function () {
-    var granted = false;
-    try { granted = localStorage.getItem("octava_cookie_consent") === "granted"; } catch (e) {}
-    gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: granted ? "granted" : "denied" });
-    window.octavaGaActive = granted;
-    window.octavaConsent = function (value) {
-      window.octavaGaActive = value === "granted";
-      gtag("consent", "update", { analytics_storage: window.octavaGaActive ? "granted" : "denied" });
-    };
-  })();
-</script>
+  if (GTM_CONTAINER_ID && !/^GTM-[A-Z0-9]{4,}$/.test(GTM_CONTAINER_ID)) {
+    throw new Error('GTM_CONTAINER_ID inválido: "' + GTM_CONTAINER_ID + '" (debe verse como GTM-XXXXXXX)');
+  }
+}
+
+// Bloque del <head>: primero el "modo de consentimiento" (mientras el visitante no acepte
+// el aviso de cookies, las herramientas de Google no guardan cookies; la decisión queda
+// en el navegador con la clave "octava_cookie_consent"), luego Tag Manager y/o la
+// etiqueta de Google (gtag.js) tal como las entrega Google.
+function analyticsSnippet() {
+  validateIds();
+  if (!TRACKING_ON) return "";
+  const gtm = GTM_CONTAINER_ID
+    ? `
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_CONTAINER_ID}');</script>
+<!-- End Google Tag Manager -->`
+    : "";
+  const ga = GA_MEASUREMENT_ID
+    ? `
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>
 <script>
@@ -54,24 +63,57 @@ function analyticsSnippet() {
   gtag('js', new Date());
 
   gtag('config', '${GA_MEASUREMENT_ID}');
-</script>
+</script>`
+    : "";
+  return `
+<!-- GA:inicio (generado por scripts/build.js, no editar a mano) -->
+<!-- Consentimiento: sin cookies de Google hasta que el visitante acepte -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  (function () {
+    var granted = false;
+    try { granted = localStorage.getItem("octava_cookie_consent") === "granted"; } catch (e) {}
+    gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: granted ? "granted" : "denied" });
+    window.octavaGaActive = granted;
+    window.octavaTags = { ga: ${Boolean(GA_MEASUREMENT_ID)}, gtm: ${Boolean(GTM_CONTAINER_ID)} };
+    window.octavaConsent = function (value) {
+      window.octavaGaActive = value === "granted";
+      gtag("consent", "update", { analytics_storage: window.octavaGaActive ? "granted" : "denied" });
+    };
+  })();
+</script>${gtm}${ga}
 <!-- GA:fin -->`;
 }
 
+// Parte de Tag Manager que va justo después de <body> (para navegadores sin JavaScript).
+function gtmBodySnippet() {
+  if (!GTM_CONTAINER_ID) return "";
+  return `
+<!-- GTM-body:inicio -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_CONTAINER_ID}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- GTM-body:fin -->`;
+}
+
 // Las páginas de "gracias" son archivos fijos: el build les inserta (o actualiza)
-// la misma etiqueta justo después de <meta charset>.
+// los mismos bloques después de <meta charset> y de <body>.
 const STATIC_PAGES = ["gracias.html", "en/thank-you.html"];
 function patchStaticPage(rel) {
   const file = path.join(ROOT, rel);
   let html = fs.readFileSync(file, "utf8");
   html = html.replace(/\n?<!-- GA:inicio[\s\S]*?<!-- GA:fin -->/, "");
+  html = html.replace(/\n?<!-- GTM-body:inicio[\s\S]*?<!-- GTM-body:fin -->/, "");
   html = html.replace(/(<meta charset="UTF-8">)/, "$1" + analyticsSnippet());
+  html = html.replace(/(<body>)/, "$1" + gtmBodySnippet());
   fs.writeFileSync(file, html, "utf8");
   console.log("Updated " + rel);
 }
 
 function cookieBanner(c, lang) {
-  if (!GA_MEASUREMENT_ID) return "";
+  if (!TRACKING_ON) return "";
   const k = c.cookies;
   return `
 <div class="cookie-banner" data-cookie-banner role="dialog" aria-live="polite" aria-label="${esc(k.title)}" hidden>
@@ -85,7 +127,7 @@ function cookieBanner(c, lang) {
 }
 
 function footerLegal(c, lang) {
-  const settings = GA_MEASUREMENT_ID
+  const settings = TRACKING_ON
     ? `<button type="button" class="linklike" data-cookie-settings>${esc(c.legal.cookieSettings)}</button>`
     : "";
   return `<span class="footer-legal"><a href="${lang.policyUrl}">${esc(c.legal.policyLink)}</a>${settings}</span>`;
@@ -322,7 +364,7 @@ ${headCommon()}
 ${jsonLd(c, lang)}
 </script>
 </head>
-<body>
+<body>${gtmBodySnippet()}
 <a class="skip-link" href="#main">${esc(c.skipLink)}</a>
 
 <header class="site-nav">
@@ -562,7 +604,7 @@ function renderPolicyPage(c, lang, langs) {
 <link rel="alternate" hreflang="x-default" href="${SITE_URL}${es.policyUrl}">
 ${headCommon()}
 </head>
-<body>
+<body>${gtmBodySnippet()}
 <a class="skip-link" href="#main">${esc(c.skipLink)}</a>
 <header class="site-nav">
   <div class="nav-row">

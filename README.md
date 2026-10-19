@@ -46,6 +46,14 @@ netlify.toml, robots.txt, sitemap.xml → configuración de despliegue y SEO
 - El ID de medición (`G-XXXXXXXXXX`) vive en un solo lugar: la constante `GA_MEASUREMENT_ID` al inicio de `scripts/build.js`.
 - Después de cambiarlo, corre `node scripts/build.js` y publica. Si queda vacío (`""`), el sitio se genera sin Analytics ni aviso de cookies.
 - Eventos que se envían (solo con cookies aceptadas): `generate_lead` (formulario enviado), `click_whatsapp` y `click_email`. Están en `assets/js/main.js`.
+
+## Google Tag Manager
+
+- El ID del contenedor (`GTM-XXXXXXX`) va en la constante `GTM_CONTAINER_ID` de `scripts/build.js`. Vacío = sin Tag Manager.
+- Con ID, el build pone el código de GTM en el `<head>` (después del consentimiento) y el `<noscript>` justo después de `<body>`, en todas las páginas.
+- Los eventos `generate_lead`, `click_whatsapp` y `click_email` llegan a GTM como "Evento personalizado" (solo con cookies aceptadas).
+- Cuando GA4 esté configurado dentro de GTM, deja `GA_MEASUREMENT_ID = ""` para no contar visitas dos veces.
+
 - Los archivos de `assets/` se guardan en caché un año (ver `netlify.toml`). El build les agrega `?v=<huella>` automáticamente, así que los cambios de CSS/JS sí llegan a quienes ya visitaron el sitio.
 
 ## Desplegar en Netlify
