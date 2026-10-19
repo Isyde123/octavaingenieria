@@ -12,13 +12,20 @@
     try { granted = localStorage.getItem("octava_cookie_consent") === "granted"; } catch (e) {}
     gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: granted ? "granted" : "denied" });
     window.octavaGaActive = granted;
-    window.octavaTags = { ga: true, gtm: false };
+    window.octavaTags = { ga: true, gtm: true };
     window.octavaConsent = function (value) {
       window.octavaGaActive = value === "granted";
       gtag("consent", "update", { analytics_storage: window.octavaGaActive ? "granted" : "denied" });
     };
   })();
 </script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXCRQNGM');</script>
+<!-- End Google Tag Manager -->
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5WEMXD4L73"></script>
 <script>
@@ -45,6 +52,12 @@
 <link rel="stylesheet" href="/assets/css/style.css?v=d488192d">
 </head>
 <body>
+<!-- GTM-body:inicio -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXCRQNGM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- GTM-body:fin -->
 <a class="skip-link" href="#main">Skip to main content</a>
 <header class="site-nav">
   <div class="nav-row">
@@ -140,7 +153,7 @@
 <p>To run the website and our contact channels we use technology providers acting as processors, some with servers outside Colombia:</p>
 <ul>
   <li><strong>Netlify, Inc.</strong> (United States): website hosting and receipt of contact form messages.</li>
-  <li><strong>Google LLC</strong> (United States): Google Analytics, measurement of site usage as described in section 11.</li>
+  <li><strong>Google LLC</strong> (United States): Google Tag Manager (management of the site's tags) and Google Analytics (measurement of site usage), as described in section 11.</li>
   <li>Email, messaging and cloud storage providers used to manage communications with data subjects.</li>
 </ul>
 <p>These transmissions are made to fulfill the purposes of this policy, under the conditions of article 25 of Decree 1377 of 2013 and with the data subject's authorization. We do not sell or transfer personal data to third parties.</p>

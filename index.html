@@ -12,13 +12,20 @@
     try { granted = localStorage.getItem("octava_cookie_consent") === "granted"; } catch (e) {}
     gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: granted ? "granted" : "denied" });
     window.octavaGaActive = granted;
-    window.octavaTags = { ga: true, gtm: false };
+    window.octavaTags = { ga: true, gtm: true };
     window.octavaConsent = function (value) {
       window.octavaGaActive = value === "granted";
       gtag("consent", "update", { analytics_storage: window.octavaGaActive ? "granted" : "denied" });
     };
   })();
 </script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WXCRQNGM');</script>
+<!-- End Google Tag Manager -->
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5WEMXD4L73"></script>
 <script>
@@ -112,6 +119,12 @@
 </script>
 </head>
 <body>
+<!-- GTM-body:inicio -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXCRQNGM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- GTM-body:fin -->
 <a class="skip-link" href="#main">Saltar al contenido principal</a>
 
 <header class="site-nav">

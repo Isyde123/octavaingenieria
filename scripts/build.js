@@ -22,7 +22,7 @@ const GA_MEASUREMENT_ID = "G-5WEMXD4L73";
 
 // Google Tag Manager: pega aquí el ID del contenedor (formato GTM-XXXXXXX).
 // Si queda vacío (""), el sitio se genera sin Tag Manager.
-const GTM_CONTAINER_ID = "";
+const GTM_CONTAINER_ID = "GTM-WXCRQNGM";
 
 // Después de cambiar cualquiera de los dos, corre: node scripts/build.js
 const TRACKING_ON = Boolean(GA_MEASUREMENT_ID || GTM_CONTAINER_ID);
