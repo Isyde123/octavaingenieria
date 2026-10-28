@@ -23,7 +23,7 @@
     "ctaPrimary": "Talk to one of our specialists",
     "ctaWhatsapp": "Message us on WhatsApp",
     "stats": [
-      { "value": "+5", "label": "Years in the industry" },
+      { "value": "4", "label": "Years in the industry" },
       { "value": "100%", "label": "RETIE certified" },
       { "value": "6", "label": "Service lines" }
     ],
@@ -37,8 +37,8 @@
     "subtitle": "We work with residential, commercial and industrial clients, from design through legalization. Flip each card to see a real project behind the service.",
     "statRow": [
       { "value": "100%", "label": "RETIE certified" },
-      { "value": "50+", "label": "Projects" },
-      { "value": "15+", "label": "Cities" }
+      { "value": "30+", "label": "Projects" },
+      { "value": "5+", "label": "Cities" }
     ],
     "flipHint": "View project",
     "flipBack": "Back",
@@ -199,7 +199,7 @@
   "stats": {
     "eyebrow": "/ Impact statistics",
     "items": [
-      { "value": "+5", "label": "Years in the industry", "sub": "Proven track record" },
+      { "value": "4", "label": "Years in the industry", "sub": "Proven track record" },
       { "value": "100%", "label": "RETIE-certified projects", "sub": "Regulatory compliance" },
       { "value": "6", "label": "Service lines", "sub": "Comprehensive solutions" },
       { "value": "80%", "label": "Max. bill reduction", "sub": "Energy efficiency" },

@@ -23,7 +23,7 @@
     "ctaPrimary": "Contacta uno de nuestros especialistas",
     "ctaWhatsapp": "Escríbenos por WhatsApp",
     "stats": [
-      { "value": "+5", "label": "Años en el sector" },
+      { "value": "4", "label": "Años en el sector" },
       { "value": "100%", "label": "Certificados RETIE" },
       { "value": "6", "label": "Líneas de servicio" }
     ],
@@ -37,8 +37,8 @@
     "subtitle": "Trabajamos con clientes residenciales, comerciales e industriales, desde el diseño hasta la legalización. Gira cada tarjeta para conocer un proyecto real que respalda el servicio.",
     "statRow": [
       { "value": "100%", "label": "Certificados RETIE" },
-      { "value": "50+", "label": "Proyectos" },
-      { "value": "15+", "label": "Ciudades" }
+      { "value": "30+", "label": "Proyectos" },
+      { "value": "5+", "label": "Ciudades" }
     ],
     "flipHint": "Ver proyecto",
     "flipBack": "Volver",
@@ -199,7 +199,7 @@
   "stats": {
     "eyebrow": "/ Estadísticas de impacto",
     "items": [
-      { "value": "+5", "label": "Años en el sector", "sub": "Experiencia consolidada" },
+      { "value": "4", "label": "Años en el sector", "sub": "Experiencia consolidada" },
       { "value": "100%", "label": "Proyectos certificados RETIE", "sub": "Cumplimiento normativo" },
       { "value": "6", "label": "Líneas de servicio", "sub": "Soluciones integrales" },
       { "value": "80%", "label": "Reducción máx. en factura", "sub": "Eficiencia energética" },
