@@ -28,7 +28,7 @@
       { "value": "6", "label": "Líneas de servicio" }
     ],
     "imageAlt": "Paneles solares fotovoltaicos instalados en cubierta, con cordillera de Antioquia al fondo — proyecto de energía solar de Octava Ingeniería",
-    "cardLabel": "Reducción mínima en la factura de servicios",
+    "cardLabel": "Reducción máxima en la factura de servicios",
     "cardValue": "80%"
   },
   "services": {

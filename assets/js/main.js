@@ -3,21 +3,60 @@
 
   document.documentElement.classList.add("anim-ready");
 
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   /* ---------- mobile menu ---------- */
   var burger = document.querySelector("[data-burger]");
   var mobileMenu = document.querySelector("[data-mobile-menu]");
   if (burger && mobileMenu) {
-    burger.addEventListener("click", function () {
-      var open = mobileMenu.classList.toggle("open");
+    var setMenu = function (open) {
+      mobileMenu.classList.toggle("open", open);
       burger.setAttribute("aria-expanded", open ? "true" : "false");
       burger.textContent = open ? "✕" : "☰";
+    };
+    burger.addEventListener("click", function () {
+      setMenu(!mobileMenu.classList.contains("open"));
     });
     mobileMenu.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        mobileMenu.classList.remove("open");
-        burger.setAttribute("aria-expanded", "false");
-        burger.textContent = "☰";
-      });
+      a.addEventListener("click", function () { setMenu(false); });
+    });
+    // Salidas claras: tecla Esc o tocar fuera del menú
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && mobileMenu.classList.contains("open")) { setMenu(false); burger.focus(); }
+    });
+    document.addEventListener("click", function (e) {
+      if (mobileMenu.classList.contains("open") && !mobileMenu.contains(e.target) && !burger.contains(e.target)) setMenu(false);
+    });
+  }
+
+  /* ---------- encabezado: línea inferior solo cuando hay contenido debajo ---------- */
+  var nav = document.querySelector(".site-nav");
+  if (nav) {
+    var updateNav = function () { nav.classList.toggle("scrolled", window.scrollY > 8); };
+    updateNav();
+    window.addEventListener("scroll", updateNav, { passive: true });
+  }
+
+  /* ---------- sección actual resaltada en el menú ---------- */
+  var navLinks = document.querySelectorAll('.nav-links a[href^="#"], .mobile-menu a[href^="#"]');
+  if ("IntersectionObserver" in window && navLinks.length) {
+    var sectionIo = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var id = "#" + entry.target.id;
+          navLinks.forEach(function (a) {
+            var current = a.getAttribute("href") === id;
+            a.classList.toggle("is-current", current);
+            if (current) { a.setAttribute("aria-current", "location"); } else { a.removeAttribute("aria-current"); }
+          });
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    ["servicios", "nosotros", "contacto"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) sectionIo.observe(el);
     });
   }
 
@@ -41,13 +80,20 @@
   }
 
   /* ---------- hero parallax ---------- */
+  // Sincronizado con el refresco de pantalla y desactivado si la persona pidió menos movimiento
   var heroImg = document.getElementById("heroImg");
-  if (heroImg) {
+  if (heroImg && !reduceMotion) {
+    var ticking = false;
     window.addEventListener(
       "scroll",
       function () {
-        var y = Math.min(window.scrollY, 900);
-        heroImg.style.transform = "translateY(" + y * 0.07 + "px) scale(1.1)";
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          var y = Math.min(window.scrollY, 900);
+          heroImg.style.transform = "translate3d(0," + (y * 0.07).toFixed(1) + "px,0) scale(1.1)";
+          ticking = false;
+        });
       },
       { passive: true }
     );
@@ -55,7 +101,9 @@
 
   /* ---------- flip cards (tap-to-flip for touch) ---------- */
   document.querySelectorAll(".svc-card.can-flip").forEach(function (card) {
+    // Con mouse la tarjeta gira al pasar por encima (CSS); el clic solo la gira en pantallas táctiles
     card.addEventListener("click", function () {
+      if (window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
       card.classList.toggle("flipped");
     });
     card.setAttribute("role", "button");
